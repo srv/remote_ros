@@ -1,0 +1,15 @@
+#!/bin/bash
+if [ "$#" -lt 1 ] ; then
+  echo "Usage: \"nuc sync\" or \"nuc make\" or \"nuc sync make\""
+fi
+for i in "$@" ; do
+  if [[ $i == "sync" ]] ; then
+    echo "Syncing local ROS to NUC ROS using rsync..."
+    rsync -avz --exclude='.git/' $HOME/kinetic/src/turbot_stack/ sparus@sparusII-nuc:kinetic/src/turbot_stack/
+  fi
+
+  if [[ $i == "make" ]] ; then
+    echo "Compiling ROS workspace..."
+    ssh sparus@192.168.1.206 -t 'bash -l -c -i catmk'
+  fi
+done
